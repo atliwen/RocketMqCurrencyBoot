@@ -91,7 +91,7 @@ public class ExternalCallConcurrentlyStatus implements BaseMessageListenerConsum
 	{
 		// 验证是否有空值
 		String[] keys =
-		{ "url" };
+		{ "url", "Tag", "body" };
 		try
 		{
 			ForwardedHelp.outStr(matchingMap, keys);
@@ -101,6 +101,7 @@ public class ExternalCallConcurrentlyStatus implements BaseMessageListenerConsum
 			LOGGER.error(e.getMessage());
 			return ConsumeConcurrentlyStatus.RECONSUME_LATER;
 		}
+		// TODO 待 增加 转发MQ 功能
 		return equalsTag(matchingMap, MqTags, params);
 	}
 

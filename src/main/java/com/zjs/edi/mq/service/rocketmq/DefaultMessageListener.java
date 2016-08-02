@@ -1,10 +1,15 @@
 package com.zjs.edi.mq.service.rocketmq;
 
 import java.io.UnsupportedEncodingException;
+import java.text.MessageFormat;
 import java.util.List;
+
+import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import com.alibaba.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
 import com.alibaba.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
@@ -24,6 +29,7 @@ import com.zjs.edi.mq.service.rocketmq.messagelistener.base.BaseMessageListenerC
 * @author 李文
 * @date   2016年8月1日 上午10:06:08 
 */
+@Component
 public class DefaultMessageListener implements MessageListenerConcurrently
 {
 
@@ -32,16 +38,19 @@ public class DefaultMessageListener implements MessageListenerConcurrently
 	/**
 	 *   消息处理次数   
 	 */
+	@Value("${MQ.COUNT:12}")
 	private int count;
 
 	/**
 	 *  数据字符集
 	 */
+	@Value("${MQ.Encoding:UTF-8}")
 	private String Encoding;
 
 	/**
 	 *  自定义的消费方法
 	 */
+	@Resource(name = "consumer")
 	private BaseMessageListenerConsumer consumer;
 
 	@Override
@@ -63,7 +72,8 @@ public class DefaultMessageListener implements MessageListenerConcurrently
 			strBody = new String(msg.getBody());
 		}
 
-		LOGGER.info("当前处理的消息 实体是 " + strBody);
+		LOGGER.info(MessageFormat.format("当前处理的消息 实体是  {0}  队列名称是 {1}  标签是{2} ", strBody,
+				msg.getTopic(), msg.getTags()));
 
 		// 消息处理次数的处理
 		if (msg.getReconsumeTimes() > count)
@@ -73,24 +83,4 @@ public class DefaultMessageListener implements MessageListenerConcurrently
 		}
 		return consumer.consumeMessage(strBody, msg, context);
 	}
-
-	/**
-	 *   等到 Spring 注入
-	 * @param consumer
-	 */
-	public void setConsumer(BaseMessageListenerConsumer consumer)
-	{
-		this.consumer = consumer;
-	}
-
-	public void setEncoding(String encoding)
-	{
-		Encoding = encoding;
-	}
-
-	public void setCount(int count)
-	{
-		this.count = count;
-	}
-
 }

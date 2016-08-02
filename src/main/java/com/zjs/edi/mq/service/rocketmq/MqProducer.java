@@ -8,6 +8,7 @@ import javax.annotation.PreDestroy;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 
 import com.alibaba.rocketmq.client.exception.MQClientException;
 import com.alibaba.rocketmq.client.producer.DefaultMQProducer;
@@ -41,12 +42,16 @@ public class MqProducer
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(MqProducer.class);
 
+	@Value("${MQ.NamesrvAddr}")
 	private String NamesrvAddr;
 
+	@Value("${MQ.ProducerGroupName}")
 	private String ProducerGroupName;
 
+	@Value("${MQ.InstanceName}")
 	private String InstanceName;
 
+	@Value("${MQ.SendMsgTimeout:20000}")
 	private int SendMsgTimeout;
 
 	@PostConstruct

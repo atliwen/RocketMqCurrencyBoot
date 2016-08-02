@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.ContextLoader;
 
 import com.zjs.edi.mq.domain.mq.AttributeNames;
 import com.zjs.edi.mq.service.rocketmq.MqConsumer;
@@ -91,9 +90,8 @@ public class MqConsumerController
 	public ResponseEntity<String> destroyMqConsumer(@RequestParam("Consumer") String Consumer)
 	{
 
-		ServletContext servletContext = ContextLoader.getCurrentWebApplicationContext()
-				.getServletContext();
-		@SuppressWarnings("unchecked")
+		ServletContext servletContext = request.getServletContext();
+
 		Enumeration<String> attributeNames = servletContext.getAttributeNames();
 
 		List<String> outList = new ArrayList<String>();
@@ -121,7 +119,6 @@ public class MqConsumerController
 	public List<AttributeNames> queryMqConsumerList()
 	{
 		ServletContext servletContext = request.getServletContext();
-
 		List<AttributeNames> list = new ArrayList<AttributeNames>();
 		Enumeration<String> attributeNames = servletContext.getAttributeNames();
 		while (attributeNames.hasMoreElements())

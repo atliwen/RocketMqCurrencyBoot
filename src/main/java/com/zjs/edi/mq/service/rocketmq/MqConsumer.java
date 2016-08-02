@@ -1,7 +1,14 @@
 package com.zjs.edi.mq.service.rocketmq;
 
+import java.text.MessageFormat;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import com.alibaba.rocketmq.client.consumer.DefaultMQPushConsumer;
 import com.alibaba.rocketmq.client.consumer.listener.MessageListenerConcurrently;
@@ -23,6 +30,9 @@ import com.alibaba.rocketmq.common.protocol.heartbeat.MessageModel;
 * @author 李文
 * @date   2016年8月1日 上午10:06:08 
 */
+@Component
+@Scope("prototype")
+@Lazy(true)
 public class MqConsumer
 {
 	private final Logger logger = LoggerFactory.getLogger(MqConsumer.class);
@@ -35,16 +45,19 @@ public class MqConsumer
 	/**
 	 * MQ地址
 	 */
+	@Value("${MQ.NamesrvAddr}")
 	private String namesrvAddr;
 
 	/**
 	 *  消费端组名
 	 */
+	@Value("${MQ.consumerGroup}")
 	private String consumerGroup;
 
 	/**
 	 * 实际消费类
 	 */
+	@Autowired
 	private MessageListenerConcurrently defaultMessageListener;
 
 	/**
@@ -71,9 +84,9 @@ public class MqConsumer
 	{
 
 		// 参数信息
-		logger.info(
-				"消费者 初始化!  consumerGroup={0}   namesrvAddr={1}  Topic={2}   Tags={3}  ConsumeFromWhere={4}  MessageModel={5} ",
-				consumerGroup, namesrvAddr, Topic, Tags, consumeFromWhere, messageModel);
+		logger.info(MessageFormat
+				.format("消费者 初始化!  consumerGroup={0}   namesrvAddr={1}  Topic={2}   Tags={3}  ConsumeFromWhere={4}  MessageModel={5} ",
+						consumerGroup, namesrvAddr, Topic, Tags, consumeFromWhere, messageModel));
 
 		// 一个应用创建一个Consumer，由应用来维护此对象，可以设置为全局对象或者单例<br>
 		// 注意：ConsumerGroupName需要由应用来保证唯一
@@ -125,27 +138,4 @@ public class MqConsumer
 		defaultMQPushConsumer.shutdown();
 		logger.info("关闭消费者 结束");
 	}
-
-	// ----------------- setter --------------------
-
-	/**
-	 *  没有使用 注解 是为了方便以后 修改 替换的时候 不修改 任何代码
-	 * @param myConcurrently
-	 */
-
-	public void setNamesrvAddr(String namesrvAddr)
-	{
-		this.namesrvAddr = namesrvAddr;
-	}
-
-	public void setDefaultMessageListener(MessageListenerConcurrently defaultMessageListener)
-	{
-		this.defaultMessageListener = defaultMessageListener;
-	}
-
-	public void setConsumerGroup(String consumerGroup)
-	{
-		this.consumerGroup = consumerGroup;
-	}
-
 }
