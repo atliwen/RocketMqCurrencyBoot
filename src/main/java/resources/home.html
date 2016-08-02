@@ -1,0 +1,406 @@
+<html lang="zh-CN">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>MQ动态管理工具</title>
+<!-- 新 Bootstrap 核心 CSS 文件 -->
+<link rel="stylesheet"
+	href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.min.css">
+<!-- Latest compiled and minified JavaScript  -->
+<script
+	src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.min.js"></script>
+<!-- Latest compiled and minified Locales -->
+<script
+	src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/locale/bootstrap-table-zh-CN.min.js"></script>
+<link href="css/bootstrap-editable.css" rel="stylesheet" />
+<link href="css/bootstrapValidator.min.css" rel="stylesheet" />
+<!-- 表单验证插件 -->
+<script src="js/bootstrapValidator.min.js"></script>
+<script src="js/mqjs.js"></script>
+
+<link href="css/myhome.css" rel="stylesheet" />
+
+</head>
+
+<body>
+	<!-- 导航头 开始 -->
+	<div>
+		<nav class="navbar navbar-default navbar-fixed-top">
+			<a class="navbar-brand" href="#">
+				<p class="pText">&nbsp;&nbsp;Edi</p>
+
+			</a>
+
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed"
+						data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+						aria-expanded="false">
+						<span class="sr-only">Toggle navigation</span> <span
+							class="icon-bar"></span><span class="icon-bar"></span><span
+							class="icon-bar"></span>
+					</button>
+				</div>
+				<div class="collapse navbar-collapse" data-toggle="buttons"
+					id="bs-example-navbar-collapse-1">
+					<p class="navbar-text">自测平台&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+					<ul class="nav navbar-nav navbar-right btn-group">
+
+						<!-- 首页 开始-->
+						<li role="presentation" class="btn"><a id="homeid"
+							role="button" data-toggle="collapse" data-parent="#accordion"
+							href="#collapseOne" aria-expanded="true"
+							aria-controls="collapseOne" name="options">&nbsp;&nbsp;首页&nbsp;&nbsp;&nbsp;&nbsp;</a>
+						</li>
+						<!-- 首页 结束-->
+
+						<!-- 开启消费者 开始-->
+						<li role="presentation" class="btn"><a class="collapsed"
+							role="button" data-toggle="collapse" data-parent="#accordion"
+							href="#collapseTwo" aria-expanded="false"
+							aria-controls="collapseTwo" name="options">开启消费者</a></li>
+						<!-- 开启消费者 结束-->
+
+						<!-- 删除消费者 开始-->
+						<li role="presentation" class="btn"><a class="collapsed"
+							role="button" data-toggle="collapse" data-parent="#accordion"
+							href="#collapseThree" aria-expanded="false"
+							aria-controls="collapseThree" name="options">删除消费者</a></li>
+						<!-- 删除消费者 结束-->
+
+						<!-- Send消息 开始 -->
+						<li role="presentation" class="btn"><a class="collapsed"
+							role="button" data-toggle="collapse" data-parent="#accordion"
+							href="#sendid" aria-expanded="false" aria-controls="sendid"
+							name="options">Send消息</a></li>
+						<!-- Send消息 结束 -->
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</div>
+	<!-- 导航头 结束 -->
+
+
+
+	<!--显示数据开始-->
+	<div class="row">
+		<div class="col-xs-2 col-md-2"></div>
+		<div class="col-xs-8 col-md-8">
+			<div class="panel-group" id="accordion" role="tablist"
+				aria-multiselectable="true">
+				<!-- 首页显示开始 -->
+				<div class="panel panel-default">
+					<div id="collapseOne" class="panel-collapse collapse in"
+						role="tabpanel">
+						<div class="panel-body">
+							<!-- 首页显示开始 -->
+							<!-- 数据表单 -->
+							<table id="table" data-toolbar="#toolbar" data-search="true"
+								data-show-refresh="true" data-show-toggle="true"
+								data-show-export="true" data-minimum-count-columns="2"
+								data-show-pagination-switch="true" data-pagination="true"
+								data-id-field="id" data-page-list="[10, 25, 50, 100, ALL]">
+							</table>
+							<!-- 首页显示结束 -->
+						</div>
+					</div>
+				</div>
+				<!-- 首页显示结束 -->
+
+				<!-- 新建一个消费者开始 -->
+				<div class="panel panel-default">
+					<div id="collapseTwo" class="panel-collapse collapse"
+						role="tabpanel">
+						<!-- 新建一个消费者开始 -->
+						<div class="panel-body">
+
+							<div class="row">
+								<div class="col-xs-4 col-md-4">
+									<h3>
+										<span class="label label-primary">New&nbsp;&nbsp;<span
+											class="label label-info">新消费端</span></span>
+									</h3>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-xs-3 col-md-3"></div>
+								<div class="col-xs-6 col-md-6">
+									<!--开启新消费端 表单 开始 ID = newid -->
+									<form class="form-horizontal" id="newid">
+										<!-- Topic -->
+										<div class="form-group">
+											<label for="Topic" class="col-sm-3 control-label">Topic：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+											<div class="col-sm-10">
+												<input type="text" class="form-control" name="Topic"
+													id="Topic" placeholder="Topic 不能为空 " />
+											</div>
+										</div>
+										<!-- Topic -->
+
+										<!-- Tags -->
+										<div class="form-group">
+											<label for="Tags" class="col-sm-3 control-label">Tags：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+											<div class="col-sm-10">
+												<input id="Tags" type="text" class="form-control"
+													name="Tags" placeholder="*" />
+											</div>
+										</div>
+										<!-- Tags -->
+										<div class="form-group pull-right">
+											<button type="submit" name="submit" class="btn btn-primary">启动</button>
+										</div>
+									</form>
+									<!--开启新消费端 表单 结束-->
+								</div>
+								<div class="col-xs-3 col-md-3"></div>
+							</div>
+
+							<div class="row alert alert-warning">
+
+								<div class="col-xs-3 col-md-3"></div>
+								<div class="col-xs-4 col-md-4">
+									<h4><b>注意事项：</b></h4>
+									<dl>
+										<dt>同一个消费者组中， 只能消费 Tipic 下面 一个Tags。</dt> 
+										<dt>当前消费者组 消费的 Tags 以最新的 创建数据为准。</dt>
+									</dl>
+
+								</div>
+								<div class="col-xs-4 col-md-4"></div>
+
+							</div>
+
+							<!-- 提示栏  ID = promptid-->
+							<div class="row">
+								<div class="col-xs-4 col-md-4"></div>
+								<div class="col-xs-4 col-md-4">
+									<div id="promptid" class="alert alert-danger collapse"
+										role="alert"></div>
+								</div>
+							</div>
+							<!-- 提示栏  ID = promptid-->
+						</div>
+						<!-- 新建一个消费者结束 -->
+					</div>
+				</div>
+				<!-- 新建一个消费者结束 -->
+
+				<!-- 删除一个消费者开始 -->
+				<div class="panel panel-default">
+
+					<div id="collapseThree" class="panel-collapse collapse"
+						role="tabpanel">
+						<!-- 删除一个消费者开始 -->
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-xs-4 col-md-4">
+									<h3>
+										<span class="label label-primary">Delete&nbsp;&nbsp;<span
+											class="label label-info">消费端</span></span>
+									</h3>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-3 col-md-3"></div>
+								<div class="col-xs-6 col-md-6">
+									<!-- 删除 表单 ID deleteid-->
+									<form class="form-horizontal" id='deleteid'>
+										<!-- Consumer -->
+										<div class="form-group">
+											<label for="Consumer" class="col-sm-3 control-label">Consumer：&nbsp;&nbsp;&nbsp;</label>
+											<div class="col-sm-10">
+												<input type="text" class="form-control" name="Consumer"
+													id="Consumer" placeholder="Consumer 不能为空 " />
+											</div>
+										</div>
+										<!-- Consumer -->
+										<div class="form-group pull-right">
+											<button type="submit" name="submit" class="btn btn-primary">删除</button>
+										</div>
+									</form>
+									<!-- 删除 表单 结束-->
+								</div>
+								<div class="col-xs-3 col-md-3"></div>
+							</div>
+
+							<!-- 提示栏  ID = deletepromptid-->
+							<div class="row">
+								<div class="col-xs-4 col-md-4"></div>
+								<div class="col-xs-4 col-md-4">
+									<div id="deletepromptid" class="alert alert-danger collapse"
+										role="alert"></div>
+								</div>
+							</div>
+							<!-- 提示栏  ID = deletepromptid-->
+
+
+						</div>
+						<!-- 删除一个消费者结束 -->
+					</div>
+				</div>
+				<!-- 删除一个消费者结束 -->
+
+				<!-- 发送消息开始 -->
+				<div class="panel panel-default">
+					<div id="sendid" class="panel-collapse collapse" role="tabpanel">
+						<!-- 发送消息开始 -->
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-xs-4 col-md-4">
+									<h3>
+										<span class="label label-primary">Send&nbsp;&nbsp;<span
+											class="label label-info">消息</span></span>
+									</h3>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-3 col-md-3"></div>
+								<div class="col-xs-6 col-md-6">
+									<!-- 表单 ID = sendformid-->
+									<form class="form-horizontal" id='sendformid'>
+
+										<!-- Topic id = sendTopic-->
+										<div class="form-group">
+											<label for="sendTopic" class="col-sm-3 control-label">Topic：&nbsp;&nbsp;&nbsp;</label>
+											<div class="col-sm-10">
+												<input type="text" class="form-control" name="sendTopic"
+													id="sendTopic" placeholder="Topic 不能为空" />
+											</div>
+										</div>
+										<!---Topic 结束 -->
+
+										<!-- Tags ID = sendTags-->
+										<div class="form-group">
+											<label for="sendTags" class="col-sm-3 control-label">Tags：&nbsp;&nbsp;&nbsp;</label>
+											<div class="col-sm-10">
+												<input type="text" class="form-control" name="sendTags"
+													id="sendTags" placeholder="Tags默认为 * " />
+											</div>
+										</div>
+										<!--Tags 结束 -->
+
+										<!-- body ID = sendbody-->
+										<div class="form-group">
+											<label for="sendbody" class="col-sm-3 control-label">body：&nbsp;&nbsp;&nbsp;</label>
+											<div class="col-sm-10">
+												<input type="text" class="form-control" name="sendbody"
+													id="sendbody" placeholder="消息的主体" />
+											</div>
+										</div>
+										<!-- body 结束-->
+
+										<div class="form-group pull-right">
+											<button type="submit" name="submit" class="btn btn-primary">删除</button>
+										</div>
+									</form>
+									<!--表单结束-->
+
+								</div>
+								<div class="col-xs-3 col-md-3"></div>
+							</div>
+							<!-- 提示栏  ID = sendtestid-->
+							<div class="row">
+								<div class="col-xs-4 col-md-4"></div>
+								<div class="col-xs-4 col-md-4">
+									<!-- 提示栏 -->
+									<div id="sendtestid" class="alert alert-danger collapse"
+										role="alert"></div>
+									<!-- 提示栏 -->
+								</div>
+							</div>
+							<!-- 提示栏 -->
+						</div>
+						<!-- 发送消息结束 -->
+					</div>
+				</div>
+				<!-- 发送消息结束 -->
+
+			</div>
+		</div>
+		<div class="col-xs-2 col-md-2"></div>
+
+	</div>
+	<!--显示数据接收-->
+
+
+
+	<!-- 尾部 结束 -->
+	<div class="row">
+		<div class="page-header ">
+			<h3 style="text-align: center">
+				MQ消费端控制 <small>自己使用</small>
+			</h3>
+		</div>
+	</div>
+	<!-- 尾部 结束 -->
+
+</body>
+
+<script type="text/javascript">
+
+    // 手机端访问  按首页等  关闭下拉 
+    $("a[data-toggle]").click(function () {
+        $('#bs-example-navbar-collapse-1').removeClass("in");
+    });
+    $("#homeid").click(function () {
+        $('#table').bootstrapTable('refresh', true);
+    });
+    // 初始化Table插件
+    $('#table').bootstrapTable({
+        url: 'http://10.10.12.27:8080/rest/MqConsumer',
+        columns: [{
+            field: 'kid',
+            title: '消费端ID',
+            align: 'center'
+        }],
+        height: 488,
+        striped: true
+    });
+    // 初始化Table插件
+    $('#table').bootstrapTable({
+        url: 'http://10.10.12.27:8080/rest/MqConsumer',
+        columns: [{
+            field: 'kid',
+            title: '消费端ID',
+            align: 'center'
+        }],
+        height: 488,
+        striped: true
+    });
+
+
+    // 表单验证插件
+    $(function () {
+
+        Datas.dataUrl.deleteidUrl = "http://10.10.12.27:8080/rest/MqConsumer";
+        Datas.dataUrl.newidsUrl = "http://10.10.12.27:8080/rest/MqConsumer";
+        Datas.dataUrl.sendformidUrl = "http://10.10.12.27:8080/rest/MqProducer";
+
+        Homejq.bootstrapValidator('#sendformid', Datas.sendTopicDate, Homejq.sendformidSubmit);
+
+        Homejq.bootstrapValidator('#newid', Datas.newidsDate, Homejq.newidsSubmit);
+
+        Homejq.bootstrapValidator('#deleteid', Datas.deleteidData, Homejq.deleteidSubmit);
+
+    });
+
+    //    $(function () {
+    //        $(".btn").click(function () {
+    //            $("#mymodal").modal("toggle");
+    //        });
+    //    });
+</script>
+</html>
