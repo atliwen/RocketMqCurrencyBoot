@@ -13,6 +13,7 @@ import com.alibaba.rocketmq.common.message.MessageExt;
 import com.zjs.edi.mq.service.rocketmq.MqProducer;
 import com.zjs.edi.mq.service.rocketmq.common.ForwardedHelp;
 import com.zjs.edi.mq.service.rocketmq.messagelistener.base.BaseForwardedMessageListConsumer;
+import com.zjs.edi.mq.service.rocketmq.messagelistener.base.BaseMatching;
 import com.zjs.edi.mq.service.rocketmq.messagelistener.base.BaseMessageListenerConsumer;
 
 /**
@@ -46,6 +47,11 @@ public class ForwardedMessageListConsumer implements BaseMessageListenerConsumer
 	private MqProducer producer;
 
 	/**
+	 * 验证规则数据源获取接口
+	 */
+	private BaseMatching baseMatching;
+
+	/**
 	 * 转发 消息处理 
 	 */
 	private BaseForwardedMessageListConsumer forwarded;
@@ -54,6 +60,12 @@ public class ForwardedMessageListConsumer implements BaseMessageListenerConsumer
 	public ConsumeConcurrentlyStatus consumeMessage(String strBody, MessageExt msg,
 			ConsumeConcurrentlyContext context)
 	{
+		if (matching == null)
+		{
+			if (baseMatching == null) return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
+			else matching = baseMatching.getMatching();
+		}
+
 		for (Map<String, String> map : matching)
 		{
 			if (forwarded != null) strBody = forwarded.MessageConsumer(strBody, msg, context);

@@ -17,6 +17,7 @@ import com.zjs.edi.mq.domain.mq.HttpResponse;
 import com.zjs.edi.mq.service.rocketmq.common.ForwardedHelp;
 import com.zjs.edi.mq.service.rocketmq.common.HttpRequest;
 import com.zjs.edi.mq.service.rocketmq.messagelistener.base.BaseExternalCallConsumer;
+import com.zjs.edi.mq.service.rocketmq.messagelistener.base.BaseMatching;
 import com.zjs.edi.mq.service.rocketmq.messagelistener.base.BaseMessageListenerConsumer;
 
 /**
@@ -49,10 +50,21 @@ public class ExternalCallConcurrentlyStatus implements BaseMessageListenerConsum
 	 */
 	private BaseExternalCallConsumer externalCall;
 
+	/**
+	 * 验证规则数据源获取接口
+	 */
+	private BaseMatching baseMatching;
+
 	@Override
 	public ConsumeConcurrentlyStatus consumeMessage(String strBody, MessageExt msg,
 			ConsumeConcurrentlyContext context)
 	{
+		if (matching == null)
+		{
+			if (baseMatching == null) return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
+			else matching = baseMatching.getMatching();
+		}
+
 		// TODO 待完善 日志系统
 		for (Map<String, String> map : matching)
 		{
