@@ -59,10 +59,11 @@ public class ExternalCallConcurrentlyStatus implements BaseMessageListenerConsum
 	public ConsumeConcurrentlyStatus consumeMessage(String strBody, MessageExt msg,
 			ConsumeConcurrentlyContext context)
 	{
-		if (matching == null)
+
+		if (baseMatching != null)
 		{
-			if (baseMatching == null) return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
-			else matching = baseMatching.getMatching();
+			List<Map<String, String>> me = baseMatching.getMatching();
+			if (me != null && me.size() != 0) matching = me;
 		}
 
 		// TODO 待完善 日志系统

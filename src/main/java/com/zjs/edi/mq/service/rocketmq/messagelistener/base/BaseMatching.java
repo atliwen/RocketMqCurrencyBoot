@@ -5,7 +5,7 @@ import java.util.Map;
 
 /**
 * <p>Title: BaseMatching </p>
-* <p>@Description: 验证规则数据源 获取接口   XML 配置大于数据源 </p>
+* <p>@Description: 验证规则数据源 获取接口  数据源 》 XML 配置  </p>
 * <p>Company:  </p>
 * @author 李文
 * @date   2016年8月2日 上午10:04:21 
