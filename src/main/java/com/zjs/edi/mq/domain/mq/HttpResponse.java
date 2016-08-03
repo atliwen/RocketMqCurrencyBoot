@@ -11,7 +11,7 @@ public class HttpResponse
 	/**
 	 * 响应是内容
 	 */
-	private String date;
+	private String data;
 
 	/**  
 	 * 获取HTTP响应状态  
@@ -35,18 +35,18 @@ public class HttpResponse
 	 * 获取响应是内容  
 	 * @return date 响应是内容  
 	 */
-	public String getDate()
+	public String getData()
 	{
-		return date;
+		return data;
 	}
 
 	/**  
 	 * 设置响应是内容  
 	 * @param date 响应是内容  
 	 */
-	public void setDate(String date)
+	public void setDate(String data)
 	{
-		this.date = date;
+		this.data = data;
 	}
 
 	/*
@@ -57,7 +57,18 @@ public class HttpResponse
 	@Override
 	public String toString()
 	{
-		return "HttpResponse [state=" + state + ", date=" + date + "]";
+		return "HttpResponse [state=" + state + ", date=" + data + "]";
+	}
+
+	public HttpResponse()
+	{
+	}
+
+	public HttpResponse(int state, String data)
+	{
+		super();
+		this.state = state;
+		this.data = data;
 	}
 
 }

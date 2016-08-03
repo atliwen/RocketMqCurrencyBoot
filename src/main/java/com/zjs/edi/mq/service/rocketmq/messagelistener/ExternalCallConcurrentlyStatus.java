@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.zjs.edi.mq.service.rocketmq.messagelistener;
 
 import java.util.HashMap;
@@ -9,11 +6,15 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 import com.alibaba.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
 import com.alibaba.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
+import com.alibaba.rocketmq.client.producer.SendResult;
 import com.alibaba.rocketmq.common.message.MessageExt;
 import com.zjs.edi.mq.domain.mq.HttpResponse;
+import com.zjs.edi.mq.service.rocketmq.MqProducer;
 import com.zjs.edi.mq.service.rocketmq.common.ForwardedHelp;
 import com.zjs.edi.mq.service.rocketmq.common.HttpRequest;
 import com.zjs.edi.mq.service.rocketmq.messagelistener.base.BaseExternalCallConsumer;
@@ -46,6 +47,12 @@ public class ExternalCallConcurrentlyStatus implements BaseMessageListenerConsum
 	private List<Map<String, String>> matching;
 
 	/**
+	 *  数据字符集
+	 */
+	@Value("${MQ.Encoding:UTF-8}")
+	private String Encoding;
+
+	/**
 	 *  转译  实体数据
 	 */
 	private BaseExternalCallConsumer externalCall;
@@ -54,6 +61,17 @@ public class ExternalCallConcurrentlyStatus implements BaseMessageListenerConsum
 	 * 验证规则数据源获取接口
 	 */
 	private BaseMatching baseMatching;
+
+	/**
+	 * 转发模式
+	 */
+	private ForwardedMessageListConsumer forwarded;
+
+	/**
+	 *  生产端
+	 */
+	@Autowired(required = false)
+	private MqProducer producer;
 
 	@Override
 	public ConsumeConcurrentlyStatus consumeMessage(String strBody, MessageExt msg,
@@ -77,17 +95,18 @@ public class ExternalCallConcurrentlyStatus implements BaseMessageListenerConsum
 			if (externalCall == null) params.put("Body", strBody);
 			else params.put("Body", externalCall.MessageConsumer(strBody, msg, context));
 
-			return sendMqTags(map, msg.getTags(), params);
+			return sendMqTags(map, msg.getTags(), params, strBody, msg, context);
 		}
 		return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
 
 	}
 
 	/**
-	 *    验证规则 并按照规则将数据 转发到对应的 队列中
+	 *    验证规则 并按照规则将数据 转发到对应的 队列中  
 	 */
-	public static ConsumeConcurrentlyStatus sendMqTags(Map<String, String> matchingMap,
-			String MqTags, Map<String, String> params)
+	public ConsumeConcurrentlyStatus sendMqTags(Map<String, String> matchingMap, String MqTags,
+			Map<String, String> params, String strBody, MessageExt msg,
+			ConsumeConcurrentlyContext context)
 	{
 		// 验证是否有空值
 		String[] keys =
@@ -101,8 +120,66 @@ public class ExternalCallConcurrentlyStatus implements BaseMessageListenerConsum
 			LOGGER.error(e.getMessage());
 			return ConsumeConcurrentlyStatus.RECONSUME_LATER;
 		}
-		// TODO 待 增加 转发MQ 功能
-		return equalsTag(matchingMap, MqTags, params);
+
+		return forwardedWebDate(matchingMap, MqTags, params, msg, context);
+
+	}
+
+	/**
+	 * 外调 Web API 后续结果 继续转发       转发类  权级 》 XML 配置权级
+	 * @param matchingMap
+	 * @param MqTags
+	 * @param params
+	 * @param msg
+	 * @param context
+	 * @return
+	 */
+	private ConsumeConcurrentlyStatus forwardedWebDate(Map<String, String> matchingMap,
+			String MqTags, Map<String, String> params, MessageExt msg,
+			ConsumeConcurrentlyContext context)
+	{
+		HttpResponse response = equalsTag(matchingMap, MqTags, params);
+		if (response.getState() != 200) { return ConsumeConcurrentlyStatus.RECONSUME_LATER; }
+		if (forwarded != null) { return forwarded.consumeMessage(response.getData(), msg, context); }
+
+		String[] keyszf =
+		{ "Topic", "Tags" };
+		try
+		{
+			ForwardedHelp.outStr(matchingMap, keyszf);
+		}
+		catch (Exception e)
+		{
+			// LOGGER.debug(" 外调Web API 后续不进行转发  消息 body= " +
+			// response.getData());
+			return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
+		}
+
+		try
+		{
+			if (producer == null)
+			{
+				LOGGER.equals("  外调后续转发 发送失败   ， 并未配置  生产者 ");
+				return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
+			}
+
+			SendResult se = producer.send(matchingMap.get("Topic"), matchingMap.get("Tags"),
+					response.getData());
+			if (se == null)
+			{
+				LOGGER.equals(" 外调后续转发 发送失败 。需要转发的数据   Topic=" + matchingMap.get("Topic")
+						+ "  Tags=" + matchingMap.get("Tags") + "  data" + response.getData());
+				return ConsumeConcurrentlyStatus.RECONSUME_LATER;
+			}
+		}
+		catch (Exception e)
+		{
+
+			LOGGER.error(" 外调 异常 转发消息到MQ  失败  Tag= " + matchingMap.get("Topic") + " body= "
+					+ response.getData(), e);
+			return ConsumeConcurrentlyStatus.RECONSUME_LATER;
+		}
+		return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
 	}
 
 	/**
@@ -114,8 +191,8 @@ public class ExternalCallConcurrentlyStatus implements BaseMessageListenerConsum
 	 * @param Topic			需要转发到的 MQ Topic
 	 * @return
 	 */
-	private static ConsumeConcurrentlyStatus equalsTag(Map<String, String> matchingMap,
-			String MqTags, Map<String, String> params)
+	private HttpResponse equalsTag(Map<String, String> matchingMap, String MqTags,
+			Map<String, String> params)
 	{
 		String url = matchingMap.get("url");
 
@@ -138,7 +215,7 @@ public class ExternalCallConcurrentlyStatus implements BaseMessageListenerConsum
 			else
 			{
 				LOGGER.debug("Tag 匹配未成功 放弃该消息    消息内容是   " + MqTags);
-				return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
+				return new HttpResponse(200, "body Tag 匹配未成功 放弃该消息");
 			}
 		}
 	}
@@ -152,8 +229,8 @@ public class ExternalCallConcurrentlyStatus implements BaseMessageListenerConsum
 	 * @param Topic			需要转发到的 MQ Topic
 	 * @return
 	 */
-	private static ConsumeConcurrentlyStatus equalsbody(Map<String, String> matchingMap,
-			String MqTags, String url, Map<String, String> params)
+	private HttpResponse equalsbody(Map<String, String> matchingMap, String MqTags, String url,
+			Map<String, String> params)
 	{
 		// 匹配 body
 		if ("*".equals(matchingMap.get("body")))
@@ -165,7 +242,7 @@ public class ExternalCallConcurrentlyStatus implements BaseMessageListenerConsum
 		if (!ForwardedHelp.isContains(params.get("body"), matchingMap.get("body")))
 		{
 			LOGGER.debug("body 匹配未成功 放弃该消息    消息内容是   " + MqTags);
-			return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
+			return new HttpResponse(200, "body 匹配未成功 放弃该消息");
 		}
 		else
 		{
@@ -180,13 +257,11 @@ public class ExternalCallConcurrentlyStatus implements BaseMessageListenerConsum
 	 * @param url
 	 * @return
 	 */
-	private static ConsumeConcurrentlyStatus sendMq(Map<String, String> matchingMap, String url,
+	private HttpResponse sendMq(Map<String, String> matchingMap, String url,
 			Map<String, String> params)
 	{
 
-		HttpResponse resp = HttpRequest.sendPostMessage(url, params, "UTF-8");
-		if (resp == null || resp.getState() != 200) { return ConsumeConcurrentlyStatus.RECONSUME_LATER; }
-		return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
+		return HttpRequest.sendPostMessage(url, params, Encoding);
 	}
 
 	/**  
@@ -205,6 +280,14 @@ public class ExternalCallConcurrentlyStatus implements BaseMessageListenerConsum
 	public void setExternalCall(BaseExternalCallConsumer externalCall)
 	{
 		this.externalCall = externalCall;
+	}
+
+	/**
+	 * @param 转发模式 the forwarded to set
+	 */
+	public void setForwarded(ForwardedMessageListConsumer forwarded)
+	{
+		this.forwarded = forwarded;
 	}
 
 }

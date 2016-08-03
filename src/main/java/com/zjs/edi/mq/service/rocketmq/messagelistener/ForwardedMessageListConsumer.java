@@ -219,4 +219,12 @@ public class ForwardedMessageListConsumer implements BaseMessageListenerConsumer
 		this.forwarded = forwarded;
 	}
 
+	/**
+	 * @param 验证规则数据源获取接口 the baseMatching to set
+	 */
+	public void setBaseMatching(BaseMatching baseMatching)
+	{
+		this.baseMatching = baseMatching;
+	}
+
 }
