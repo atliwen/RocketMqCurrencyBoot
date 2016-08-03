@@ -9,7 +9,7 @@ import com.zjs.edi.mq.service.rocketmq.messagelistener.base.BaseForwardedMessage
 
 /**
 * <p>Title: myForwardedMessageListConsumer </p>
-* <p>@Description: TODO </p>
+* <p>@Description: 示例 转发模式 消息加工处理类 </p>
 * <p>Company:  </p>
 * @author 李文
 * @date   2016年5月31日 下午3:56:07 

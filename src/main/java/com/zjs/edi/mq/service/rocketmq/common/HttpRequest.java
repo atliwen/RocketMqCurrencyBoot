@@ -15,6 +15,13 @@ import org.slf4j.LoggerFactory;
 
 import com.zjs.edi.mq.domain.mq.HttpResponse;
 
+/**
+* <p>Title: HttpRequest </p>
+* <p>@Description: HTTP 交互类 </p>
+* <p>Company:  </p>
+* @author 李文
+* @date   2016年8月3日 上午11:42:30 
+*/
 public class HttpRequest
 {
 

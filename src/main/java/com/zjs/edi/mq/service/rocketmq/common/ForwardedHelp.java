@@ -7,7 +7,7 @@ import java.util.Map;
 
 /**
 * <p>Title: ForwardedHelp </p>
-* <p>@Description: TODO </p>
+* <p>@Description: 匹配规则 校验类 </p>
 * <p>Company:  </p>
 * @author 李文
 * @date   2016年8月1日 上午10:06:08 
