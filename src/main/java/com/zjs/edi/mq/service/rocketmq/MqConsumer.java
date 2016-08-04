@@ -19,7 +19,7 @@ import com.alibaba.rocketmq.common.protocol.heartbeat.MessageModel;
 * <p>Title: MqConsumer </p>
 * <p>@Description: 消费者类
 * 		该对象是多例的    请手动 销毁 
-* 
+*  
 * 		配置文件中需要制定 
 * 			MQ.NamesrvAddr 
 * 			MQ.consumerGroup
