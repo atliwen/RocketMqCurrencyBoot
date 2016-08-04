@@ -20,7 +20,7 @@ import com.zjs.edi.mq.service.rocketmq.messagelistener.base.BaseMessageListenerC
 /**
 * <p>Title: DefaultMessageListener </p>
 * <p>@Description: 默认消费方法类  MessageListenerConcurrently 模式
-* 
+*  
 *    使用Spring 来完成注入    
 *    
 * </p>
