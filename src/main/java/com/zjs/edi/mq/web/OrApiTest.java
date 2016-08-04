@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
 * <p>Title: OrApiTest </p>
-* <p>@Description: 用于测试的 消费外调 服务 </p>
+* <p>@Description: 用于测试的 消费外调  Api 服务 </p>
 * <p>Company:  </p>
 * @author 李文
 * @date   2016年8月2日 下午4:24:22 
