@@ -22,7 +22,6 @@
 
 	<!-- 生产端 不使用生产端 请注释掉   注释后 发送消息将不可用  转发将不可用 -->
 	<bean id="mqProducer" class="com.zjs.edi.mq.service.rocketmq.MqProducer"/> 
-  
 
 </beans>
 		
