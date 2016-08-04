@@ -90,7 +90,7 @@ public class ForwardedMessageListConsumer implements BaseMessageListenerConsumer
 		}
 		catch (Exception e)
 		{
-			LOGGER.error(e.getMessage());
+			LOGGER.error(" 转发消费端  验证规则 并按照规则将数据 转发到对应的 ", e.getMessage());
 			return ConsumeConcurrentlyStatus.RECONSUME_LATER;
 		}
 
@@ -115,9 +115,7 @@ public class ForwardedMessageListConsumer implements BaseMessageListenerConsumer
 		// 是否需要 匹配 Tag
 		if ("*".equals(matchingMap.get("Tag")))
 		{
-			// 不需要匹配
-			// 匹配 body
-			return equalsbody(matchingMap, MqTags, Mqbody, Topic);
+			return equalsbody(matchingMap, MqTags, Mqbody, Topic);// 不需要匹配body
 		}
 		else
 		{
@@ -184,7 +182,7 @@ public class ForwardedMessageListConsumer implements BaseMessageListenerConsumer
 			}
 			catch (UnsupportedEncodingException e)
 			{
-				LOGGER.error(" 异常 转发消息到MQ  失败  Tag= " + matchingMap.get("Topic") + " body= "
+				LOGGER.error(" 转发消费端 异常 转发消息到MQ  失败  Tag= " + matchingMap.get("Topic") + " body= "
 						+ Mqbody, e);
 				return ConsumeConcurrentlyStatus.RECONSUME_LATER;
 			}
