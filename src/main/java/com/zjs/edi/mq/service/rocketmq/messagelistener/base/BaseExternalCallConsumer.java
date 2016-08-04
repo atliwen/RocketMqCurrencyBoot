@@ -8,7 +8,7 @@ import com.alibaba.rocketmq.common.message.MessageExt;
 
 /**
 * <p>Title: BaseExternalCallConsumer </p>
-* <p>@Description: 转译  web 服务 消息处理 </p>
+* <p>@Description: 转译  web 服务 消息处理  </p>
 * <p>Company:  </p>
 * @author 李文
 * @date   2016年8月1日 上午10:04:46 
