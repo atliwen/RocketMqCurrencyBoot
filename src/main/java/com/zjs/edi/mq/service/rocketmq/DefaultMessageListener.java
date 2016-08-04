@@ -1,6 +1,5 @@
 package com.zjs.edi.mq.service.rocketmq;
 
-import java.io.UnsupportedEncodingException;
 import java.text.MessageFormat;
 import java.util.List;
 
@@ -66,9 +65,9 @@ public class DefaultMessageListener implements MessageListenerConcurrently
 			// 直接在第一次 字节转换字符串的时候就指定为 UTF-8 编码
 			strBody = new String(msg.getBody(), Encoding);
 		}
-		catch (UnsupportedEncodingException e1)
+		catch (Exception e)
 		{
-			LOGGER.error("获取数据为UTF-8格式出错    ", e1);
+			LOGGER.error("获取数据为UTF-8格式出错    ", e);
 			strBody = new String(msg.getBody());
 		}
 
