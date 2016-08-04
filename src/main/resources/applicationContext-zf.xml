@@ -23,7 +23,7 @@
 	<!-- 转发 实体消息 转译 -->
 	<bean id="myForwardedMessageListConsumer"
 		class="com.zjs.edi.mq.service.rocketmq.translation.myForwardedMessageListConsumer" />
-
+ 
 	<!-- 转发 消费方法 类   名称必须是 consumer -->
 	<bean id="consumer"
 		class="com.zjs.edi.mq.service.rocketmq.messagelistener.ForwardedMessageListConsumer">
