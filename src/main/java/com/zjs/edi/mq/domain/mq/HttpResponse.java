@@ -4,7 +4,7 @@ package com.zjs.edi.mq.domain.mq;
 * <p>Title: HttpResponse </p>
 * <p>@Description: HTTP请求响应数据类 </p>
 * <p>Company:  </p>
-* @author 李文
+* @author 李文 
 * @date   2016年8月3日 上午11:40:56 
 */
 public class HttpResponse
