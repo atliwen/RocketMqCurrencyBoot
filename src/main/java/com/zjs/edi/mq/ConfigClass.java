@@ -14,5 +14,5 @@ import org.springframework.context.annotation.ImportResource;
 @ImportResource(locations = "classpath:applicationContext-wd.xml")
 public class ConfigClass
 {
-
+	// 注意 载入那个模式的配置文件，就使用那个模式。不可以多个同时使用。
 }
