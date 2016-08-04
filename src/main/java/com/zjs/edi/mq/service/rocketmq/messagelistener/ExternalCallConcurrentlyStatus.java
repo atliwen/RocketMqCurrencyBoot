@@ -23,7 +23,7 @@ import com.zjs.edi.mq.service.rocketmq.messagelistener.base.BaseMessageListenerC
 
 /**
 * <p>Title: ExternalCallConcurrentlyStatus </p>
-* <p>@Description: web服务调用 消费端 </p>
+* <p>@Description: web服务调用 消费端  </p>
 * <p>Company:  </p>
 * @author 李文
 * @date   2016年8月1日 上午10:09:59 
