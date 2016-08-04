@@ -11,7 +11,7 @@ import com.zjs.edi.mq.service.rocketmq.spring.SpringContextUtils;
 * <p>@Description: 启动入口类 </p>
 * <p>Company:  </p>
 * @author 李文
-* @date   2016年8月3日 上午11:40:10 
+* @date   2016年8月3日 上午11:40:10  
 */
 @SpringBootApplication
 public class Application
