@@ -20,7 +20,7 @@ import com.zjs.edi.mq.service.rocketmq.MqProducer;
 
 /**
 * <p>Title: MqProducerController </p> 
-* <p>@Description: 生产端   </p> 
+* <p>@Description: 生产端    </p> 
 * <p>Company:  </p> 
 * @author 李文  
 * @date   2016年5月20日 下午7:32:25 
