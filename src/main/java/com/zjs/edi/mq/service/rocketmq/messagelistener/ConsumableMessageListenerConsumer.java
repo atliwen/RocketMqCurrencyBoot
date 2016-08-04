@@ -10,7 +10,7 @@ import com.zjs.edi.mq.service.rocketmq.messagelistener.base.BaseMessageListenerC
 
 /**
 * <p>Title: ConsumableMessageListenerConsumer </p>
-* <p>@Description:  内销   </p>
+* <p>@Description:  内销    </p>
 * <p>Company:  </p>
 * @author 李文
 * @date   2016年8月1日 上午10:06:08 
