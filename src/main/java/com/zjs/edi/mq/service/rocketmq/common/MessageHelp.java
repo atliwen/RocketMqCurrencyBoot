@@ -6,7 +6,7 @@ import com.alibaba.rocketmq.common.message.MessageExt;
 
 /**
 * <p>Title: MessageHelp </p>
-* <p>@Description: 消息集合帮助类 </p>
+* <p>@Description: 消息集合帮助类  </p>
 * <p>Company:  </p>
 * @author 李文
 * @date   2016年8月1日 上午10:06:08 
