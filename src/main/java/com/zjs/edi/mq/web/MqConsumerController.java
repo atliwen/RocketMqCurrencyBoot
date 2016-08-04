@@ -24,7 +24,7 @@ import com.zjs.edi.mq.service.rocketmq.spring.SpringContextUtils;
 
 /**
 * <p>Title: MqConsumerController </p>
-* <p>@Description:  MqConsumer 消费端 控制类 </p>
+* <p>@Description:  MqConsumer 消费端 控制类  </p>
 * <p>Company:  </p>
 * @author 李文
 * @date   2016年5月20日 下午7:21:12 
