@@ -9,7 +9,7 @@ import com.zjs.edi.mq.service.rocketmq.messagelistener.base.BaseExternalCallCons
 
 /**
 * <p>Title: myExternalCallConsumer </p>
-* <p>@Description: 示例 外调模式 消息加工处理类 </p>
+* <p>@Description: 示例 外调模式 消息加工处理类  </p>
 * <p>Company:  </p>
 * @author 李文
 * @date   2016年5月31日 下午3:41:47 
