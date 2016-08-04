@@ -21,7 +21,7 @@ import com.alibaba.rocketmq.common.message.Message;
 * <p>@Description: 发送MQ 类  
 * 		NamesrvAddr   
 * 		ProducerGroupName
-*  		InstanceName
+*  		InstanceName 
 *  		SendMsgTimeout
 *       需要在配置文件中设置 
 *       
