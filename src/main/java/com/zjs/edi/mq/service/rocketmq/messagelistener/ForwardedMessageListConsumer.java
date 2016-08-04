@@ -18,7 +18,7 @@ import com.zjs.edi.mq.service.rocketmq.messagelistener.base.BaseMessageListenerC
 
 /**
 * <p>Title: ForwardedMessageListConsumer </p>
-* <p>@Description: 转发消费端 </p>
+* <p>@Description: 转发消费端  </p>
 * <p>Company:  </p>
 * @author 李文
 * @date   2016年8月1日 上午10:11:57 
