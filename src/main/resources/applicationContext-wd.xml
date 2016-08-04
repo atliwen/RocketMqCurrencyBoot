@@ -20,8 +20,7 @@
 
 	<!-- 生产端 不使用生产端 请注释掉 -->
 	<bean id="mqProducer" class="com.zjs.edi.mq.service.rocketmq.MqProducer"/>
-
-	 
+ 
 	<!-- 外调web服务 实体转译 -->
 	<bean id="myExternalCallConsumer"
 		class="com.zjs.edi.mq.service.rocketmq.translation.myExternalCallConsumer" />
