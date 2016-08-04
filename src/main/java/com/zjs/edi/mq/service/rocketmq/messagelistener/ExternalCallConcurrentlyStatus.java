@@ -139,6 +139,7 @@ public class ExternalCallConcurrentlyStatus implements BaseMessageListenerConsum
 			ConsumeConcurrentlyContext context)
 	{
 		HttpResponse response = equalsTag(matchingMap, MqTags, params);
+		if (response.getState() == 202) { return ConsumeConcurrentlyStatus.CONSUME_SUCCESS; }
 		if (response.getState() != 200) { return ConsumeConcurrentlyStatus.RECONSUME_LATER; }
 		if (forwarded != null) { return forwarded.consumeMessage(response.getData(), msg, context); }
 
@@ -215,7 +216,7 @@ public class ExternalCallConcurrentlyStatus implements BaseMessageListenerConsum
 			else
 			{
 				LOGGER.debug("Tag 匹配未成功 放弃该消息    消息内容是   " + MqTags);
-				return new HttpResponse(200, "body Tag 匹配未成功 放弃该消息");
+				return new HttpResponse(202, "body Tag 匹配未成功 放弃该消息");
 			}
 		}
 	}

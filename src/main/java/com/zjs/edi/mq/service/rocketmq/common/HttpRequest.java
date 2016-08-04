@@ -85,7 +85,7 @@ public class HttpRequest
 					InputStream inputStream = (InputStream) httpURLConnection.getInputStream();
 					responses.setDate(changeInputStream(inputStream, encode));
 				}
-				LOGGER.debug(" WebF 服务响应的  数据   ： " + responses);
+				LOGGER.debug(" Web Api 服务响应的  数据   ： " + responses);
 			}
 			catch (IOException e)
 			{
@@ -110,7 +110,6 @@ public class HttpRequest
 		String result = "";
 		if (inputStream != null)
 		{
-
 			try
 			{
 				while ((len = inputStream.read(data)) != -1)
