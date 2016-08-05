@@ -71,8 +71,6 @@ public class DefaultMessageListener implements MessageListenerConcurrently
 			strBody = new String(msg.getBody());
 		}
 
-		LOGGER.info("ack指数   " + context.getAckIndex());
-
 		LOGGER.info(MessageFormat.format("当前处理的消息 实体是  {0}  队列名称是 {1}  标签是{2} ", strBody,
 				msg.getTopic(), msg.getTags()));
 
