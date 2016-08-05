@@ -1,11 +1,11 @@
 /**
  * 
  */
-package com.zjs.edi.mq.service.rocketmq.translation;
+package com.zjs.edi.mq.service.rocketmq.sample.translation;
 
 import com.alibaba.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
 import com.alibaba.rocketmq.common.message.MessageExt;
-import com.zjs.edi.mq.service.rocketmq.messagelistener.base.BaseForwardedMessageListConsumer;
+import com.zjs.edi.mq.service.rocketmq.messagelistener.Interface.ForwardedMessageListConsumerInterface;
 
 /**
 * <p>Title: myForwardedMessageListConsumer </p>
@@ -14,7 +14,7 @@ import com.zjs.edi.mq.service.rocketmq.messagelistener.base.BaseForwardedMessage
 * @author 李文
 * @date   2016年5月31日 下午3:56:07 
 */
-public class myForwardedMessageListConsumer implements BaseForwardedMessageListConsumer
+public class myForwardedMessageListConsumer implements ForwardedMessageListConsumerInterface
 {
 
 	@Override

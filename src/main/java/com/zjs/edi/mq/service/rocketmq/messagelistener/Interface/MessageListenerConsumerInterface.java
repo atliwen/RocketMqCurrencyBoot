@@ -1,4 +1,4 @@
-package com.zjs.edi.mq.service.rocketmq.messagelistener.base;
+package com.zjs.edi.mq.service.rocketmq.messagelistener.Interface;
 
 import com.alibaba.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
 import com.alibaba.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
@@ -11,7 +11,7 @@ import com.alibaba.rocketmq.common.message.MessageExt;
 * @author 李文
 * @date   2016年8月1日 上午10:05:04 
 */
-public interface BaseMessageListenerConsumer
+public interface MessageListenerConsumerInterface
 {
 
 	/**

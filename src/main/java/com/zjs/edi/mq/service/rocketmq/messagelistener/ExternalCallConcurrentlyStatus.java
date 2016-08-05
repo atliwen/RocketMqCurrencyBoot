@@ -17,9 +17,9 @@ import com.zjs.edi.mq.domain.mq.HttpResponse;
 import com.zjs.edi.mq.service.rocketmq.MqProducer;
 import com.zjs.edi.mq.service.rocketmq.common.ForwardedHelp;
 import com.zjs.edi.mq.service.rocketmq.common.HttpRequest;
-import com.zjs.edi.mq.service.rocketmq.messagelistener.base.BaseExternalCallConsumer;
-import com.zjs.edi.mq.service.rocketmq.messagelistener.base.BaseMatching;
-import com.zjs.edi.mq.service.rocketmq.messagelistener.base.BaseMessageListenerConsumer;
+import com.zjs.edi.mq.service.rocketmq.messagelistener.Interface.ExternalCallConsumerInterface;
+import com.zjs.edi.mq.service.rocketmq.messagelistener.Interface.MatchingInterface;
+import com.zjs.edi.mq.service.rocketmq.messagelistener.Interface.MessageListenerConsumerInterface;
 
 /**
 * <p>Title: ExternalCallConcurrentlyStatus </p>
@@ -28,7 +28,7 @@ import com.zjs.edi.mq.service.rocketmq.messagelistener.base.BaseMessageListenerC
 * @author 李文
 * @date   2016年8月1日 上午10:09:59 
 */
-public class ExternalCallConcurrentlyStatus implements BaseMessageListenerConsumer
+public class ExternalCallConcurrentlyStatus implements MessageListenerConsumerInterface
 {
 
 	private static final Logger LOGGER = LoggerFactory
@@ -55,12 +55,12 @@ public class ExternalCallConcurrentlyStatus implements BaseMessageListenerConsum
 	/**
 	 *  转译  实体数据
 	 */
-	private BaseExternalCallConsumer externalCall;
+	private ExternalCallConsumerInterface externalCall;
 
 	/**
 	 * 验证规则数据源获取接口
 	 */
-	private BaseMatching baseMatching;
+	private MatchingInterface baseMatching;
 
 	/**
 	 * 转发模式
@@ -278,7 +278,7 @@ public class ExternalCallConcurrentlyStatus implements BaseMessageListenerConsum
 	 * 设置转译实体数据  
 	 * @param externalCall 转译实体数据  
 	 */
-	public void setExternalCall(BaseExternalCallConsumer externalCall)
+	public void setExternalCall(ExternalCallConsumerInterface externalCall)
 	{
 		this.externalCall = externalCall;
 	}

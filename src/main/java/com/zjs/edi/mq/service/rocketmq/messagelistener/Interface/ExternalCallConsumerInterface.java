@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.zjs.edi.mq.service.rocketmq.messagelistener.base;
+package com.zjs.edi.mq.service.rocketmq.messagelistener.Interface;
 
 import com.alibaba.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
 import com.alibaba.rocketmq.common.message.MessageExt;
@@ -13,7 +13,7 @@ import com.alibaba.rocketmq.common.message.MessageExt;
 * @author 李文
 * @date   2016年8月1日 上午10:04:46 
 */
-public interface BaseExternalCallConsumer
+public interface ExternalCallConsumerInterface
 {
 	/**
 	 *    转译  web 服务 消息处理

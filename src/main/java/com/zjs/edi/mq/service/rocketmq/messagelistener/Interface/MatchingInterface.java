@@ -1,4 +1,4 @@
-package com.zjs.edi.mq.service.rocketmq.messagelistener.base;
+package com.zjs.edi.mq.service.rocketmq.messagelistener.Interface;
 
 import java.util.List;
 import java.util.Map;
@@ -10,7 +10,7 @@ import java.util.Map;
 * @author 李文
 * @date   2016年8月2日 上午10:04:21 
 */
-public interface BaseMatching
+public interface MatchingInterface
 {
 	/**
 	 * 获取 验证规则 数据

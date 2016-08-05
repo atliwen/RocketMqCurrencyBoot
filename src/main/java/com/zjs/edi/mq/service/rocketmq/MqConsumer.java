@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import com.alibaba.rocketmq.client.consumer.DefaultMQPushConsumer;
 import com.alibaba.rocketmq.client.consumer.listener.MessageListenerConcurrently;
@@ -95,8 +96,8 @@ public class MqConsumer
 		defaultMQPushConsumer.setInstanceName(String.valueOf(System.currentTimeMillis()));
 
 		// 订阅指定MyTopic下tags等于MyTag
-		if (Topic == null || "".equals(Topic)) throw new Exception("Topic 不能为空");
-		if (Tags == null || "".equals(Tags)) { throw new Exception("Tags 不能为空"); }
+		if (StringUtils.isEmpty(Topic)) throw new Exception("Topic 不能为空");
+		if (StringUtils.isEmpty(Tags)) { throw new Exception("Tags 不能为空"); }
 
 		defaultMQPushConsumer.subscribe(Topic, Tags);
 

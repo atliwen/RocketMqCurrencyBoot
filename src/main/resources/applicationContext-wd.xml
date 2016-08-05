@@ -16,14 +16,22 @@
 	<!-- 加载配置文件 -->
 	<context:property-placeholder location="classpath*:mqnav.properties" />
 
-	<!-- 内销 消费方法 类 <bean id="consumer" class="com.zjs.edi.rocketmq.MessageListener.ConsumableMessageListenerConsumer"></bean> -->
+
+	<!-- 不添加 事务 Bean 就不启用事务 --> 
+	<!-- 本地事务 实例 -->
+	<bean
+		class="com.zjs.edi.mq.service.rocketmq.sample.transaction.MyLocalTransactionExecuter" />
+	<!-- 未决事务 实例 -->
+	<bean
+		class="com.zjs.edi.mq.service.rocketmq.sample.transaction.MyTransactionCheckListener" />
+
 
 	<!-- 生产端 不使用生产端 请注释掉 -->
-	<bean id="mqProducer" class="com.zjs.edi.mq.service.rocketmq.MqProducer"/>
- 
+	<bean class="com.zjs.edi.mq.service.rocketmq.MqProducer" />
+
 	<!-- 外调web服务 实体转译 -->
 	<bean id="myExternalCallConsumer"
-		class="com.zjs.edi.mq.service.rocketmq.translation.myExternalCallConsumer" />
+		class="com.zjs.edi.mq.service.rocketmq.sample.translation.myExternalCallConsumer" />
 
 	<!-- 外调web服务消费者 -->
 	<bean id="consumer"
@@ -40,7 +48,7 @@
 					<entry key="url">
 						<value>http://10.10.12.27:8080</value>
 					</entry>
-					<entry key="Topic">	<!-- 转发的 Topic  不设置 就不进行 转发消息 -->
+					<entry key="Topic">	<!-- 转发的 Topic 不设置 就不进行 转发消息 -->
 						<value>orTest</value>
 					</entry>
 					<entry key="Tags">  <!-- 转发的 Tag 不设置 就不进行 转发消息 -->
@@ -49,10 +57,10 @@
 				</map>
 			</list>
 		</property>
-		<property name="externalCall" ref="myExternalCallConsumer"/>
-		<!-- 可选属性  不设置就不生效  -->
-		<!-- <property name="forwarded"  ref="转发bean"/> -->  
-	</bean> 
+		<property name="externalCall" ref="myExternalCallConsumer" />
+		<!-- 可选属性 不设置就不生效 -->
+		<!-- <property name="forwarded" ref="转发bean"/> -->
+	</bean>
 
 </beans>
 		

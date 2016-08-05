@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import com.alibaba.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
 import com.alibaba.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
 import com.alibaba.rocketmq.common.message.MessageExt;
-import com.zjs.edi.mq.service.rocketmq.messagelistener.base.BaseMessageListenerConsumer;
+import com.zjs.edi.mq.service.rocketmq.messagelistener.Interface.MessageListenerConsumerInterface;
 
 /**
 * <p>Title: ConsumableMessageListenerConsumer </p>
@@ -15,7 +15,7 @@ import com.zjs.edi.mq.service.rocketmq.messagelistener.base.BaseMessageListenerC
 * @author 李文
 * @date   2016年8月1日 上午10:06:08 
 */
-public class ConsumableMessageListenerConsumer implements BaseMessageListenerConsumer
+public class ConsumableMessageListenerConsumer implements MessageListenerConsumerInterface
 {
 
 	private static final Logger LOGGER = LoggerFactory

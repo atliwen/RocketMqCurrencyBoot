@@ -36,7 +36,7 @@ public class MqProducerController
 	/**
 	 *  消费端生产类 
 	 */
-	@Autowired
+	@Autowired(required = false)
 	private MqProducer mqProducer;
 
 	/**

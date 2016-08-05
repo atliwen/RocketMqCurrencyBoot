@@ -15,7 +15,7 @@ import com.alibaba.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
 import com.alibaba.rocketmq.client.consumer.listener.MessageListenerConcurrently;
 import com.alibaba.rocketmq.common.message.MessageExt;
 import com.zjs.edi.mq.service.rocketmq.common.MessageHelp;
-import com.zjs.edi.mq.service.rocketmq.messagelistener.base.BaseMessageListenerConsumer;
+import com.zjs.edi.mq.service.rocketmq.messagelistener.Interface.MessageListenerConsumerInterface;
 
 /**
 * <p>Title: DefaultMessageListener </p>
@@ -50,7 +50,7 @@ public class DefaultMessageListener implements MessageListenerConcurrently
 	 *  自定义的消费方法
 	 */
 	@Resource(name = "consumer")
-	private BaseMessageListenerConsumer consumer;
+	private MessageListenerConsumerInterface consumer;
 
 	@Override
 	public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> msgs,
@@ -70,6 +70,8 @@ public class DefaultMessageListener implements MessageListenerConcurrently
 			LOGGER.error("获取数据为UTF-8格式出错    ", e);
 			strBody = new String(msg.getBody());
 		}
+
+		LOGGER.info("ack指数   " + context.getAckIndex());
 
 		LOGGER.info(MessageFormat.format("当前处理的消息 实体是  {0}  队列名称是 {1}  标签是{2} ", strBody,
 				msg.getTopic(), msg.getTags()));

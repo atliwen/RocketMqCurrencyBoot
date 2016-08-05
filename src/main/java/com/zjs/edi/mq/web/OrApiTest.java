@@ -1,6 +1,5 @@
 package com.zjs.edi.mq.web;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,6 +22,9 @@ public class OrApiTest
 			@RequestParam("Tags") String Tags, @RequestParam("Body") String Body)
 	{
 		System.out.println(Body);
-		return ResponseEntity.status(HttpStatus.ACCEPTED).body("处理完成  并且后续不转发");
+		// return
+		// ResponseEntity.status(HttpStatus.ACCEPTED).body("处理完成  并且后续不转发");
+
+		return ResponseEntity.ok("OK");
 	}
 }

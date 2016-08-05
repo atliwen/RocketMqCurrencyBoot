@@ -8,12 +8,16 @@ import javax.annotation.PreDestroy;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import com.alibaba.rocketmq.client.exception.MQClientException;
 import com.alibaba.rocketmq.client.producer.DefaultMQProducer;
+import com.alibaba.rocketmq.client.producer.LocalTransactionExecuter;
 import com.alibaba.rocketmq.client.producer.SendResult;
 import com.alibaba.rocketmq.client.producer.SendStatus;
+import com.alibaba.rocketmq.client.producer.TransactionCheckListener;
+import com.alibaba.rocketmq.client.producer.TransactionMQProducer;
 import com.alibaba.rocketmq.common.message.Message;
 
 /**
@@ -38,7 +42,7 @@ import com.alibaba.rocketmq.common.message.Message;
 */
 public class MqProducer
 {
-	DefaultMQProducer producer = null;
+	Object producer = null;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(MqProducer.class);
 
@@ -54,28 +58,86 @@ public class MqProducer
 	@Value("${MQ.SendMsgTimeout:20000}")
 	private int SendMsgTimeout;
 
+	/**
+	 * Broker 回查 Producer 事务状态时， 线程池大小 
+	 */
+	@Value("${MQ.checkThreadPoolMinSize:1}")
+	private int checkThreadPoolMinSize;
+
+	/**
+	 * Broker 回查 Producer 事务状态时， 线程池大小 
+	 */
+	@Value("${MQ.checkThreadPoolMaxSize:1}")
+	private int checkThreadPoolMaxSize;
+
+	/**
+	 * Broker 回查 Producer 事务状态时，Producer 本地缓冲请求队列大小
+	 */
+	@Value("${MQ.checkRequestHoldMax:2000}")
+	private int checkRequestHoldMax;
+
+	/**
+	 * 未决事务，服务器回查客户端
+	 */
+	@Autowired(required = false)
+	// @Qualifier("transactionCheckListener")
+	private TransactionCheckListener transaction;
+
+	/**
+	 * 本地事务
+	 */
+	@Autowired(required = false)
+	// @Qualifier("localTransactionExecuter")
+	private LocalTransactionExecuter transactionExecuter;
+
 	@PostConstruct
 	private void init() throws MQClientException
 	{
-		producer = new DefaultMQProducer();
-		// Producer 组名， 多个 Producer 如果属于一 个应用，发送同样的消息，则应该将它们 归为同一组
-		producer.setProducerGroup(ProducerGroupName);
-		// Name Server 地址列表
-		producer.setNamesrvAddr(NamesrvAddr);
-		// 生产者名称
-		producer.setInstanceName(InstanceName);
-		// 超时时间
-		producer.setSendMsgTimeout(SendMsgTimeout);
-		producer.start();
+		if (transaction == null || transactionExecuter == null)
+		{
+			DefaultMQProducer defaultProducer = new DefaultMQProducer();
+			// Producer 组名， 多个 Producer 如果属于一 个应用，发送同样的消息，则应该将它们 归为同一组
+			defaultProducer.setProducerGroup(ProducerGroupName);
+			// Name Server 地址列表
+			defaultProducer.setNamesrvAddr(NamesrvAddr);
+			// 生产者名称
+			defaultProducer.setInstanceName(InstanceName);
+			// 超时时间
+			defaultProducer.setSendMsgTimeout(SendMsgTimeout);
+			defaultProducer.start();
+			producer = defaultProducer;
+		}
+		else
+		{
+			TransactionMQProducer transactionProducer = new TransactionMQProducer();
+			// Producer 组名， 多个 Producer 如果属于一 个应用，发送同样的消息，则应该将它们 归为同一组
+			transactionProducer.setProducerGroup(ProducerGroupName);
+			// Name Server 地址列表
+			transactionProducer.setNamesrvAddr(NamesrvAddr);
+			// 生产者名称
+			transactionProducer.setInstanceName(InstanceName);
+			// 超时时间
+			transactionProducer.setSendMsgTimeout(SendMsgTimeout);
+			transactionProducer.setCheckThreadPoolMinSize(checkThreadPoolMinSize);
+			transactionProducer.setCheckThreadPoolMaxSize(checkThreadPoolMaxSize);
+			transactionProducer.setCheckRequestHoldMax(checkRequestHoldMax);
+			transactionProducer.setTransactionCheckListener(transaction);
+			transactionProducer.start();
+			producer = transactionProducer;
+		}
 
 	}
 
 	@PreDestroy
 	private void Destroy()
 	{
-		if (producer != null)
+		if (producer instanceof DefaultMQProducer)
 		{
-			producer.shutdown();
+			DefaultMQProducer producerMq = (DefaultMQProducer) producer;
+			if (producerMq != null)
+			{
+				producerMq.shutdown();
+			}
 		}
 	}
 
@@ -135,7 +197,16 @@ public class MqProducer
 		SendResult sendResult = null;
 		try
 		{
-			sendResult = producer.send(me);
+			if (producer instanceof TransactionMQProducer)
+			{
+				sendResult = ((TransactionMQProducer) producer).sendMessageInTransaction(me,
+						transactionExecuter, null);
+
+			}
+			else
+			{
+				sendResult = ((DefaultMQProducer) producer).send(me);
+			}
 		}
 		catch (Exception e)
 		{

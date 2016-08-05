@@ -12,9 +12,9 @@ import com.alibaba.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
 import com.alibaba.rocketmq.common.message.MessageExt;
 import com.zjs.edi.mq.service.rocketmq.MqProducer;
 import com.zjs.edi.mq.service.rocketmq.common.ForwardedHelp;
-import com.zjs.edi.mq.service.rocketmq.messagelistener.base.BaseForwardedMessageListConsumer;
-import com.zjs.edi.mq.service.rocketmq.messagelistener.base.BaseMatching;
-import com.zjs.edi.mq.service.rocketmq.messagelistener.base.BaseMessageListenerConsumer;
+import com.zjs.edi.mq.service.rocketmq.messagelistener.Interface.ForwardedMessageListConsumerInterface;
+import com.zjs.edi.mq.service.rocketmq.messagelistener.Interface.MatchingInterface;
+import com.zjs.edi.mq.service.rocketmq.messagelistener.Interface.MessageListenerConsumerInterface;
 
 /**
 * <p>Title: ForwardedMessageListConsumer </p>
@@ -23,7 +23,7 @@ import com.zjs.edi.mq.service.rocketmq.messagelistener.base.BaseMessageListenerC
 * @author 李文
 * @date   2016年8月1日 上午10:11:57 
 */
-public class ForwardedMessageListConsumer implements BaseMessageListenerConsumer
+public class ForwardedMessageListConsumer implements MessageListenerConsumerInterface
 {
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(ForwardedMessageListConsumer.class);
@@ -49,12 +49,12 @@ public class ForwardedMessageListConsumer implements BaseMessageListenerConsumer
 	/**
 	 * 验证规则数据源获取接口
 	 */
-	private BaseMatching baseMatching;
+	private MatchingInterface baseMatching;
 
 	/**
 	 * 转发 消息处理 
 	 */
-	private BaseForwardedMessageListConsumer forwarded;
+	private ForwardedMessageListConsumerInterface forwarded;
 
 	@Override
 	public ConsumeConcurrentlyStatus consumeMessage(String strBody, MessageExt msg,
@@ -212,7 +212,7 @@ public class ForwardedMessageListConsumer implements BaseMessageListenerConsumer
 	 * 设置转发消息处理  
 	 * @param forwarded 转发消息处理  
 	 */
-	public void setForwarded(BaseForwardedMessageListConsumer forwarded)
+	public void setForwarded(ForwardedMessageListConsumerInterface forwarded)
 	{
 		this.forwarded = forwarded;
 	}
@@ -220,7 +220,7 @@ public class ForwardedMessageListConsumer implements BaseMessageListenerConsumer
 	/**
 	 * @param 验证规则数据源获取接口 the baseMatching to set
 	 */
-	public void setBaseMatching(BaseMatching baseMatching)
+	public void setBaseMatching(MatchingInterface baseMatching)
 	{
 		this.baseMatching = baseMatching;
 	}

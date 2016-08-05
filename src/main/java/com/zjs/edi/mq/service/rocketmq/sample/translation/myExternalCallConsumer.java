@@ -1,11 +1,11 @@
 /**
  * 
  */
-package com.zjs.edi.mq.service.rocketmq.translation;
+package com.zjs.edi.mq.service.rocketmq.sample.translation;
 
 import com.alibaba.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
 import com.alibaba.rocketmq.common.message.MessageExt;
-import com.zjs.edi.mq.service.rocketmq.messagelistener.base.BaseExternalCallConsumer;
+import com.zjs.edi.mq.service.rocketmq.messagelistener.Interface.ExternalCallConsumerInterface;
 
 /**
 * <p>Title: myExternalCallConsumer </p>
@@ -14,7 +14,7 @@ import com.zjs.edi.mq.service.rocketmq.messagelistener.base.BaseExternalCallCons
 * @author 李文
 * @date   2016年5月31日 下午3:41:47 
 */
-public class myExternalCallConsumer implements BaseExternalCallConsumer
+public class myExternalCallConsumer implements ExternalCallConsumerInterface
 {
 
 	@Override
