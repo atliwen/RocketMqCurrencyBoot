@@ -17,14 +17,13 @@
 	<context:property-placeholder location="classpath*:mqnav.properties" />
 
 
-	<!-- 不添加 事务 Bean 就不启用事务 --> 
+	<!-- 不添加 事务 Bean 就不启用事务 -->
 	<!-- 本地事务 实例 -->
-	<bean
-		class="com.zjs.edi.mq.service.rocketmq.sample.transaction.MyLocalTransactionExecuter" />
+	<!-- <bean class="com.zjs.edi.mq.service.rocketmq.sample.transaction.MyLocalTransactionExecuter" 
+		/> -->
 	<!-- 未决事务 实例 -->
-	<bean
-		class="com.zjs.edi.mq.service.rocketmq.sample.transaction.MyTransactionCheckListener" />
-
+	<!-- <bean class="com.zjs.edi.mq.service.rocketmq.sample.transaction.MyTransactionCheckListener" 
+		/> -->
 
 	<!-- 生产端 不使用生产端 请注释掉 -->
 	<bean class="com.zjs.edi.mq.service.rocketmq.MqProducer" />
