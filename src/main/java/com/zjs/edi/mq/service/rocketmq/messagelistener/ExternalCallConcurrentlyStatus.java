@@ -141,7 +141,8 @@ public class ExternalCallConcurrentlyStatus implements MessageListenerConsumerIn
 		HttpResponse response = equalsTag(matchingMap, MqTags, params);
 		if (response.getState() == 202) { return ConsumeConcurrentlyStatus.CONSUME_SUCCESS; }
 		if (response.getState() != 200) { return ConsumeConcurrentlyStatus.RECONSUME_LATER; }
-		if (forwarded != null) { return forwarded.consumeMessage(response.getData(), msg, context); }
+		if (forwarded != null) { return forwarded.consumeMessage(response.getData(), msg,
+				context); }
 
 		String[] keyszf =
 		{ "Topic", "Tags" };
@@ -151,16 +152,17 @@ public class ExternalCallConcurrentlyStatus implements MessageListenerConsumerIn
 		}
 		catch (Exception e)
 		{
-			// LOGGER.debug(" 外调Web API 后续不进行转发  消息 body= " +
+			// LOGGER.debug(" 外调Web API 后续不进行转发 消息 body= " +
 			// response.getData());
-			return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
+			LOGGER.error("外调Web API 后续不进行转发 消息 body= " + response.getData() + " " + e.getMessage());
+			return ConsumeConcurrentlyStatus.RECONSUME_LATER;
 		}
 
 		try
 		{
 			if (producer == null)
 			{
-				LOGGER.equals("  外调后续转发 发送失败   ， 并未配置  生产者 ");
+				LOGGER.error("  外调后续转发 发送失败   ， 并未配置  生产者 ");
 				return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
 			}
 
@@ -168,8 +170,8 @@ public class ExternalCallConcurrentlyStatus implements MessageListenerConsumerIn
 					response.getData());
 			if (se == null)
 			{
-				LOGGER.equals(" 外调后续转发 发送失败 。需要转发的数据   Topic=" + matchingMap.get("Topic")
-						+ "  Tags=" + matchingMap.get("Tags") + "  data" + response.getData());
+				LOGGER.error(" 外调后续转发 发送失败 。需要转发的数据   Topic=" + matchingMap.get("Topic") + "  Tags="
+						+ matchingMap.get("Tags") + "  data" + response.getData());
 				return ConsumeConcurrentlyStatus.RECONSUME_LATER;
 			}
 		}
