@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +17,7 @@ import com.alibaba.rocketmq.client.consumer.listener.MessageListenerConcurrently
 import com.alibaba.rocketmq.common.message.MessageExt;
 import com.zjs.edi.mq.service.rocketmq.common.MessageHelp;
 import com.zjs.edi.mq.service.rocketmq.messagelistener.Interface.MessageListenerConsumerInterface;
+import com.zjs.edi.mq.service.rocketmq.messagelistener.Interface.MqExceedCountInterface;
 
 /**
 * <p>Title: DefaultMessageListener </p>
@@ -52,6 +54,9 @@ public class DefaultMessageListener implements MessageListenerConcurrently
 	@Resource(name = "consumer")
 	private MessageListenerConsumerInterface consumer;
 
+	@Autowired(required = false)
+	private MqExceedCountInterface mqExceedCount;
+
 	@Override
 	public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> msgs,
 			ConsumeConcurrentlyContext context)
@@ -78,6 +83,7 @@ public class DefaultMessageListener implements MessageListenerConcurrently
 		if (msg.getReconsumeTimes() > count)
 		{
 			LOGGER.info("容错次数超出  msg=" + msg);
+			if (mqExceedCount != null) mqExceedCount.exceedCount(strBody, msg, context);
 			return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
 		}
 		return consumer.consumeMessage(strBody, msg, context);
