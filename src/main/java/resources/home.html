@@ -350,7 +350,7 @@
 </body>
 
 <script type="text/javascript">
-
+    var url=window.location.host;
     // 手机端访问  按首页等  关闭下拉 
     $("a[data-toggle]").click(function () {
         $('#bs-example-navbar-collapse-1').removeClass("in");
@@ -360,7 +360,7 @@
     });
     // 初始化Table插件
     $('#table').bootstrapTable({
-        url: 'http://10.10.12.27:8080/rest/MqConsumer',
+        url: url+'/rest/MqConsumer',
         columns: [{
             field: 'kid',
             title: '消费端ID',
@@ -371,7 +371,7 @@
     });
     // 初始化Table插件
     $('#table').bootstrapTable({
-        url: 'http://10.10.12.27:8080/rest/MqConsumer',
+        url: url+'/rest/MqConsumer',
         columns: [{
             field: 'kid',
             title: '消费端ID',
@@ -385,9 +385,9 @@
     // 表单验证插件
     $(function () {
 
-        Datas.dataUrl.deleteidUrl = "http://10.10.12.27:8080/rest/MqConsumer";
-        Datas.dataUrl.newidsUrl = "http://10.10.12.27:8080/rest/MqConsumer";
-        Datas.dataUrl.sendformidUrl = "http://10.10.12.27:8080/rest/MqProducer";
+        Datas.dataUrl.deleteidUrl = url+"/rest/MqConsumer";
+        Datas.dataUrl.newidsUrl = url+"/rest/MqConsumer";
+        Datas.dataUrl.sendformidUrl = url+"/rest/MqProducer";
 
         Homejq.bootstrapValidator('#sendformid', Datas.sendTopicDate, Homejq.sendformidSubmit);
 
