@@ -83,7 +83,14 @@ public class DefaultMessageListener implements MessageListenerConcurrently
 		if (msg.getReconsumeTimes() > count)
 		{
 			LOGGER.info("容错次数超出  msg=" + msg);
-			if (mqExceedCount != null) mqExceedCount.exceedCount(strBody, msg, context);
+			try
+			{
+			    if (mqExceedCount != null) mqExceedCount.exceedCount(strBody, msg, context);
+			}
+			catch (Exception e)
+			{
+				LOGGER.info("   容错方法出现异常  ", e);
+			}
 			return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
 		}
 		return consumer.consumeMessage(strBody, msg, context);
