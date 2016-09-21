@@ -1,0 +1,27 @@
+﻿
+.navbar-default {
+    border-color: #CC1A1A;
+}
+
+.pText {
+    font-weight: 900;
+    color: #247159;
+}
+
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .open > a {
+    background-image: linear-gradient(to bottom, rgb(177, 104, 102) 0, rgb(210, 208, 208) 100%);
+}
+
+body {
+    padding-top: 70px;
+}
+
+.focus {
+    background-image: linear-gradient(to bottom, rgb(177, 104, 102) 0, rgb(210, 208, 208) 100%);
+}
+
+#bs-example-navbar-collapse-1 ul li {
+    padding: 0px 0px;
+    border: 0px;
+    outline: 0px auto -webkit-focus-ring-color;
+}
