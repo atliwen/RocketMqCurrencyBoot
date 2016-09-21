@@ -1,4 +1,4 @@
-package com.zjs.edi.mq.service.rocketmq.messagelistener.Interface;
+package com.currencyboot.service.rocketmq.messagelistener.Interface;
 
 import com.alibaba.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
 import com.alibaba.rocketmq.common.message.MessageExt;

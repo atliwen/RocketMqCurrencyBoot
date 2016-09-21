@@ -1,4 +1,4 @@
-package com.zjs.edi.mq.service.rocketmq.messagelistener.Interface;
+package com.currencyboot.service.rocketmq.messagelistener.Interface;
 
 import java.util.List;
 import java.util.Map;

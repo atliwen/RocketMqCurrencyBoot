@@ -1,4 +1,4 @@
-package com.zjs.edi.mq.web;
+package com.currencyboot.web;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.zjs.edi.mq.domain.mq.AttributeNames;
-import com.zjs.edi.mq.service.rocketmq.MqConsumer;
-import com.zjs.edi.mq.service.rocketmq.spring.SpringContextUtils;
+import com.currencyboot.domain.mq.AttributeNames;
+import com.currencyboot.service.rocketmq.MqConsumer;
+import com.currencyboot.service.rocketmq.spring.SpringContextUtils;
 
 /**
 * <p>Title: MqConsumerController </p>

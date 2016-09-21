@@ -1,4 +1,4 @@
-package com.zjs.edi.mq;
+package com.currencyboot;
 
 /**
 * <p>Title: ConfigClass </p>

@@ -1,4 +1,4 @@
-package com.zjs.edi.mq.domain.mq;
+package com.currencyboot.domain.mq;
 
 public class AttributeNames
 {

@@ -1,4 +1,4 @@
-package com.zjs.edi.mq.service.rocketmq.common;
+package com.currencyboot.service.rocketmq.common;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -13,7 +13,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.zjs.edi.mq.domain.mq.HttpResponse;
+import com.currencyboot.domain.mq.HttpResponse;
 
 /**
 * <p>Title: HttpRequest </p>

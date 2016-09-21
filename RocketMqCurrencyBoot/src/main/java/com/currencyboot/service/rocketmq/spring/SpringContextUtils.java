@@ -1,4 +1,4 @@
-package com.zjs.edi.mq.service.rocketmq.spring;
+package com.currencyboot.service.rocketmq.spring;
 
 import java.util.Map;
 

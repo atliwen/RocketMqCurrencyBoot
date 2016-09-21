@@ -1,4 +1,4 @@
-package com.zjs.edi.mq.service.rocketmq.common;
+package com.currencyboot.service.rocketmq.common;
 
 import java.util.List;
 

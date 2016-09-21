@@ -1,4 +1,4 @@
-package com.zjs.edi.mq.web;
+package com.currencyboot.web;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.rocketmq.client.producer.SendResult;
-import com.zjs.edi.mq.service.rocketmq.MqProducer;
+import com.currencyboot.service.rocketmq.MqProducer;
 
 /**
 * <p>Title: MqProducerController </p> 

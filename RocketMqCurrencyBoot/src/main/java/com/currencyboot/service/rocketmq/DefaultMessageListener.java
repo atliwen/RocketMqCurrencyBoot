@@ -1,4 +1,4 @@
-package com.zjs.edi.mq.service.rocketmq;
+package com.currencyboot.service.rocketmq;
 
 import java.text.MessageFormat;
 import java.util.List;
@@ -13,9 +13,9 @@ import com.alibaba.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
 import com.alibaba.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
 import com.alibaba.rocketmq.client.consumer.listener.MessageListenerConcurrently;
 import com.alibaba.rocketmq.common.message.MessageExt;
-import com.zjs.edi.mq.service.rocketmq.common.MessageHelp;
-import com.zjs.edi.mq.service.rocketmq.messagelistener.Interface.MessageListenerConsumerInterface;
-import com.zjs.edi.mq.service.rocketmq.messagelistener.Interface.MqExceedCountInterface;
+import com.currencyboot.service.rocketmq.common.MessageHelp;
+import com.currencyboot.service.rocketmq.messagelistener.Interface.MessageListenerConsumerInterface;
+import com.currencyboot.service.rocketmq.messagelistener.Interface.MqExceedCountInterface;
 
 /**
 * <p>Title: DefaultMessageListener </p>

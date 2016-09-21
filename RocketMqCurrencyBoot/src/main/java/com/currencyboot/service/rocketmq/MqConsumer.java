@@ -1,4 +1,4 @@
-package com.zjs.edi.mq.service.rocketmq;
+package com.currencyboot.service.rocketmq;
 
 import java.text.MessageFormat;
 

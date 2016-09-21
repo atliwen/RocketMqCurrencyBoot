@@ -1,4 +1,4 @@
-package com.zjs.edi.mq;
+package com.currencyboot;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
