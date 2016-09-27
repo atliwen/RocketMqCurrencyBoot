@@ -85,9 +85,24 @@
 					并容错次数 >1  将继续消费该消息， 原先转发成功的还将继续转发。
 					
 					会照成 一个消息  多次转发 到 同一个Topic 中。
+					
+					
 				
     版本更新
-				
+			
+ 	版本V2.4.0	
+		
+		发布私人Maven 库 使用更加方便
+		<repository>
+			<id>atliwen</id>
+			<url>https://raw.githubusercontent.com/atliwen/maven-repo/master/repository</url>
+		</repository>
+		<dependency>
+			<groupId>com.currencyboot.mq</groupId>
+			<artifactId>currencyboot-mq</artifactId>
+			<version>2.4.0-SNAPSHOT</version>
+		</dependency>
+		
  	版本V2.3.1
  	
  		新增 消费超出设置次数  触发的接口类
